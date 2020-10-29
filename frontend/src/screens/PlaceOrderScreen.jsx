@@ -32,8 +32,9 @@ const PlaceOrderScreen = ({ history }) => {
 
   useEffect(() => {
     if (success) {
-      //history.push(`/order/${order._id}`)
+      history.push(`http://localhost:5000/api/orders/${order._id}`);
     }
+    // eslint-disable-next-line
   }, [history, success]);
 
   const placeOrderHandler = () => {
