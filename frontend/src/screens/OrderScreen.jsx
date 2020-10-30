@@ -1,43 +1,31 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Form,
-  Button,
-  Card,
-} from 'react-bootstrap';
-import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Loader from '../components/Loader';
 import { getOrderDetails } from '../actions/orderActions';
 
-const OrderScreen = ({ match, location, history }) => {
+const OrderScreen = ({ match }) => {
   const orderId = match.params.id;
 
   const dispatch = useDispatch();
 
-  const orderDetails = useSelector((state) => state.orderCreate);
+  const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
   if (!loading) {
-    //   Calculate prices
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
     };
-
     order.itemsPrice = addDecimals(
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     );
   }
 
   useEffect(() => {
-    if (!order || order._id !== orderId) {
-      dispatch(getOrderDefails(orderId));
-    }
-  }, [order, orderId]);
+    dispatch(getOrderDetails(orderId));
+  }, []);
 
   return loading ? (
     <Loader />
@@ -55,13 +43,13 @@ const OrderScreen = ({ match, location, history }) => {
                 <strong>Name: </strong> {order.user.name}
               </p>
               <p>
-                <strong>Email:</strong>{' '}
+                <strong>Email: </strong>{' '}
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               <p>
                 <strong>Address:</strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city}{' '}
-                {order.shippingAddress.postalCode}{' '}
+                {order.shippingAddress.postalCode},{' '}
                 {order.shippingAddress.country}
               </p>
               {order.isDelivered ? (
@@ -82,7 +70,7 @@ const OrderScreen = ({ match, location, history }) => {
               {order.isPaid ? (
                 <Message variant="success">Paid on {order.paidAt}</Message>
               ) : (
-                <Message variant="danger">Not paid</Message>
+                <Message variant="danger">Not Paid</Message>
               )}
             </ListGroup.Item>
 
@@ -109,7 +97,7 @@ const OrderScreen = ({ match, location, history }) => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x {item.price} = ${item.qty * item.price}
+                          {item.qty} x ${item.price} = ${item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -131,21 +119,18 @@ const OrderScreen = ({ match, location, history }) => {
                   <Col>${order.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
                   <Col>${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
                   <Col>${order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
-
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>

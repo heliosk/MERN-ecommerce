@@ -2,6 +2,7 @@ import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_FAIL,
+  ORDER_CREATE_RESET,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
@@ -16,7 +17,7 @@ export const orderCreateReducer = (state = {}, action) => {
     case ORDER_CREATE_SUCCESS:
       return {
         loading: false,
-        succes: true,
+        success: true,
         order: action.payload,
       };
     case ORDER_CREATE_FAIL:
@@ -24,6 +25,8 @@ export const orderCreateReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+    case ORDER_CREATE_RESET:
+      return {};
     default:
       return state;
   }
