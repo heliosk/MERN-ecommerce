@@ -1,6 +1,4 @@
 import asyncHandler from 'express-async-handler';
-import { Provider } from 'react-redux';
-import { orderDetailsReducer } from '../../frontend/src/reducers/orderReducers.js';
 import Order from '../models/orderModel.js';
 
 // @desc    Create new order
@@ -65,7 +63,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
-    orderDetailsReducer.paymentResult = {
+    order.paymentResult = {
       id: req.body.id,
       status: req.body.status,
       update_time: req.body.update_time,
