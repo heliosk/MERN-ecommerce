@@ -141,11 +141,9 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-/**
- * @desc    Get user by ID
- * @route   POST /api/users/:id
- * @access  Private/Admin
- */
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password');
 
@@ -157,11 +155,9 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
-/**
- * @desc    Update user
- * @route   PUT /api/users/:id
- * @access  Private/Admin
- */
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
