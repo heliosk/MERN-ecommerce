@@ -117,7 +117,6 @@ const ProductEditScreen = ({ match, history }) => {
                 custom
                 onChange={uploadFileHandler}
               ></Form.File>
-              {uploading && <Loader />}
             </Form.Group>
 
             <Form.Group controlId="brand">
